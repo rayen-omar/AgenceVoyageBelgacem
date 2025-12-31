@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste pour locations -->
+        <record id="view_location_voyage_tree" model="ir.ui.view">
+            <field name="name">location.voyage.tree</field>
+            <field name="model">location.voyage</field>
+            <field name="arch" type="xml">
+                <tree string="Destinations">
+                    <field name="name"/>
+                    <field name="ville"/>
+                    <field name="pays"/>
+                    <field name="type_lieu"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire pour locations -->
+        <record id="view_location_voyage_form" model="ir.ui.view">
+            <field name="name">location.voyage.form</field>
+            <field name="model">location.voyage</field>
+            <field name="arch" type="xml">
+                <form string="Destination">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="type_lieu"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="ville"/>
+                                <field name="pays"/>
+                                <field name="latitude"/>
+                                <field name="longitude"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Description du lieu..."/>
+                        </group>
+                        <group>
+                            <field name="adresse" placeholder="Adresse complète..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche pour locations -->
+        <record id="view_location_voyage_search" model="ir.ui.view">
+            <field name="name">location.voyage.search</field>
+            <field name="model">location.voyage</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher une destination">
+                    <field name="name" string="Nom"/>
+                    <field name="ville" string="Ville"/>
+                    <field name="pays" string="Pays"/>
+                    <field name="type_lieu" string="Type"/>
+                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="Aéroports" name="aeroport" domain="[('type_lieu', '=', 'aeroport')]"/>
+                    <filter string="Hôtels" name="hotel" domain="[('type_lieu', '=', 'hotel')]"/>
+                    <filter string="Monuments" name="monument" domain="[('type_lieu', '=', 'monument')]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Type de lieu" name="group_type" context="{'group_by': 'type_lieu'}"/>
+                        <filter string="Pays" name="group_pays" context="{'group_by': 'pays'}"/>
+                        <filter string="Ville" name="group_ville" context="{'group_by': 'ville'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action pour locations -->
+        <record id="action_location_voyage" model="ir.actions.act_window">
+            <field name="name">Destinations</field>
+            <field name="res_model">location.voyage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre première destination !
+                </p>
+                <p>
+                    Les destinations contiennent les informations des lieux 
+                    (villes, monuments, hôtels, aéroports, etc.).
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu pour locations -->
+        <menuitem id="menu_location_voyage"
+                  name="Destinations"
+                  parent="menu_agence_voyage_root"
+                  action="action_location_voyage"
+                  sequence="20"/>
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_location_voyage_user,location.voyage.user,model_location_voyage,base.group_user,1,1,1,1
+access_location_voyage_manager,location.voyage.manager,model_location_voyage,base.group_system,1,1,1,1
+access_client_voyage_user,client.voyage.user,model_client_voyage,base.group_user,1,1,1,1
+access_client_voyage_manager,client.voyage.manager,model_client_voyage,base.group_system,1,1,1,1
+access_hotel_voyage_user,hotel.voyage.user,model_hotel_voyage,base.group_user,1,1,1,1
+access_hotel_voyage_manager,hotel.voyage.manager,model_hotel_voyage,base.group_system,1,1,1,1
+access_tour_package_user,tour.package.user,model_tour_package,base.group_user,1,1,1,1
+access_tour_package_manager,tour.package.manager,model_tour_package,base.group_system,1,1,1,1
+access_tour_package_itinerary_user,tour.package.itinerary.user,model_tour_package_itinerary,base.group_user,1,1,1,1
+access_tour_package_itinerary_manager,tour.package.itinerary.manager,model_tour_package_itinerary,base.group_system,1,1,1,1
+access_tour_package_facility_user,tour.package.facility.user,model_tour_package_facility,base.group_user,1,1,1,1
+access_tour_package_facility_manager,tour.package.facility.manager,model_tour_package_facility,base.group_system,1,1,1,1

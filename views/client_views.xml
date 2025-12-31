@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste pour clients -->
+        <record id="view_client_voyage_tree" model="ir.ui.view">
+            <field name="name">client.voyage.tree</field>
+            <field name="model">client.voyage</field>
+            <field name="arch" type="xml">
+                <tree string="Clients">
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="telephone"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire pour clients -->
+        <record id="view_client_voyage_form" model="ir.ui.view">
+            <field name="name">client.voyage.form</field>
+            <field name="model">client.voyage</field>
+            <field name="arch" type="xml">
+                <form string="Client">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="email"/>
+                                <field name="telephone"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="adresse" placeholder="Adresse complète..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche pour clients -->
+        <record id="view_client_voyage_search" model="ir.ui.view">
+            <field name="name">client.voyage.search</field>
+            <field name="model">client.voyage</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher un client">
+                    <field name="name" string="Nom"/>
+                    <field name="email" string="Email"/>
+                    <field name="telephone" string="Téléphone"/>
+                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="Avec email" name="with_email" domain="[('email', '!=', False)]"/>
+                    <filter string="Avec téléphone" name="with_phone" domain="[('telephone', '!=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action pour clients -->
+        <record id="action_client_voyage" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="res_model">client.voyage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier client !
+                </p>
+                <p>
+                    Les clients contiennent les informations essentielles 
+                    de vos clients de voyage.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu pour clients -->
+        <menuitem id="menu_client_voyage"
+                  name="Clients"
+                  parent="menu_agence_voyage_root"
+                  action="action_client_voyage"
+                  sequence="10"/>
+    </data>
+</odoo>

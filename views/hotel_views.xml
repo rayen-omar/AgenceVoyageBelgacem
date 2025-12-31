@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste pour hôtels -->
+        <record id="view_hotel_voyage_tree" model="ir.ui.view">
+            <field name="name">hotel.voyage.tree</field>
+            <field name="model">hotel.voyage</field>
+            <field name="arch" type="xml">
+                <tree string="Hotel">
+                    <field name="name"/>
+                    <field name="ville"/>
+                    <field name="pays"/>
+                    <field name="nombre_etoiles"/>
+                    <field name="telephone"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire pour hôtels -->
+        <record id="view_hotel_voyage_form" model="ir.ui.view">
+            <field name="name">hotel.voyage.form</field>
+            <field name="model">hotel.voyage</field>
+            <field name="arch" type="xml">
+                <form string="Hotel">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="nombre_etoiles"/>
+                                <field name="telephone"/>
+                                <field name="email"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="ville"/>
+                                <field name="pays"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="adresse" placeholder="Adresse complète de l'hotel..."/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Description de l'hotel..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche pour hôtels -->
+        <record id="view_hotel_voyage_search" model="ir.ui.view">
+            <field name="name">hotel.voyage.search</field>
+            <field name="model">hotel.voyage</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher un hotel">
+                    <field name="name" string="Nom"/>
+                    <field name="ville" string="Ville"/>
+                    <field name="pays" string="Pays"/>
+                    <field name="email" string="Email"/>
+                    <field name="telephone" string="Téléphone"/>
+                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="5 étoiles" name="5stars" domain="[('nombre_etoiles', '=', '5')]"/>
+                    <filter string="4 étoiles" name="4stars" domain="[('nombre_etoiles', '=', '4')]"/>
+                    <filter string="3 étoiles" name="3stars" domain="[('nombre_etoiles', '=', '3')]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Pays" name="group_pays" context="{'group_by': 'pays'}"/>
+                        <filter string="Ville" name="group_ville" context="{'group_by': 'ville'}"/>
+                        <filter string="Nombre d'étoiles" name="group_etoiles" context="{'group_by': 'nombre_etoiles'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action pour hôtels -->
+        <record id="action_hotel_voyage" model="ir.actions.act_window">
+            <field name="name">Hotels</field>
+            <field name="res_model">hotel.voyage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier hotel !
+                </p>
+                <p>
+                    Les hotels contiennent les informations des hôtels 
+                    disponibles pour vos voyages.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu pour hôtels -->
+        <menuitem id="menu_hotel_voyage"
+                  name="Hotels"
+                  parent="menu_agence_voyage_root"
+                  action="action_hotel_voyage"
+                  sequence="30"/>
+    </data>
+</odoo>
