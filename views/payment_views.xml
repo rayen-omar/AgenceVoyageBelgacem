@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue liste pour paiements -->
+        <record id="view_payment_tree" model="ir.ui.view">
+            <field name="name">travel.payment.tree</field>
+            <field name="model">travel.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Paiements" decoration-success="state=='posted'" 
+                      decoration-muted="state=='cancelled'">
+                    <field name="name"/>
+                    <field name="reservation_id"/>
+                    <field name="partner_id"/>
+                    <field name="date"/>
+                    <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                    <field name="payment_method"/>
+                    <field name="reference"/>
+                    <field name="state" widget="badge" 
+                           decoration-info="state=='draft'"
+                           decoration-success="state=='posted'"
+                           decoration-muted="state=='cancelled'"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue formulaire pour paiements -->
+        <record id="view_payment_form" model="ir.ui.view">
+            <field name="name">travel.payment.form</field>
+            <field name="model">travel.payment</field>
+            <field name="arch" type="xml">
+                <form string="Paiement">
+                    <header>
+                        <button name="action_post" string="Valider" type="object" 
+                                class="btn-primary" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_print_receipt" string="Imprimer Reçu" type="object" 
+                                class="btn-secondary" attrs="{'invisible': [('state', '!=', 'posted')]}"/>
+                        <button name="action_cancel" string="Annuler" type="object" 
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_draft" string="Remettre en Brouillon" type="object" 
+                                attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Informations Paiement">
+                                <field name="reservation_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group string="Détails">
+                                <field name="payment_method" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="reference" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="journal_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <field name="notes" placeholder="Notes sur ce paiement..."/>
+                        </group>
+                        
+                        <field name="company_id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue recherche pour paiements -->
+        <record id="view_payment_search" model="ir.ui.view">
+            <field name="name">travel.payment.search</field>
+            <field name="model">travel.payment</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher un Paiement">
+                    <field name="name" string="Référence"/>
+                    <field name="reservation_id" string="Réservation"/>
+                    <field name="partner_id" string="Client"/>
+                    <filter string="Brouillon" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Validé" name="posted" domain="[('state', '=', 'posted')]"/>
+                    <filter string="Annulé" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                    <separator/>
+                    <filter string="Aujourd'hui" name="today" domain="[('date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Ce Mois" name="this_month" domain="[]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Réservation" name="group_reservation" context="{'group_by': 'reservation_id'}"/>
+                        <filter string="Client" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Mode de Paiement" name="group_payment_method" context="{'group_by': 'payment_method'}"/>
+                        <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action pour paiements -->
+        <record id="action_payment" model="ir.actions.act_window">
+            <field name="name">Paiements</field>
+            <field name="res_model">travel.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_posted': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre premier paiement !
+                </p>
+                <p>
+                    Les paiements permettent de suivre les règlements reçus
+                    pour les réservations.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu pour paiements -->
+        <menuitem id="menu_payment"
+                  name="Paiements"
+                  parent="menu_agence_voyage_root"
+                  action="action_payment"
+                  sequence="20"/>
+    </data>
+</odoo>

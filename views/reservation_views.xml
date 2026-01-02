@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_reservation_form" model="ir.ui.view">
+            <field name="name">travel.reservation.form</field>
+            <field name="model">travel.reservation</field>
+            <field name="arch" type="xml">
+                <form string="Réservation">
+                    <header>
+                        <button name="action_create_invoice" string="Créer Facture" type="object" class="btn-primary"
+                                attrs="{'invisible': ['|', ('state', '!=', 'confirmed'), ('invoice_id', '!=', False)]}"/>
+                        <button name="action_confirm" string="Confirmer" type="object" class="btn-primary"
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_register_payment" string="Enregistrer Paiement" type="object" class="btn-secondary"
+                                attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                        <button name="action_cancel" string="Annuler" type="object"
+                                attrs="{'invisible': [('state', 'in', ['cancelled', 'done'])]}"/>
+                        <button name="action_draft" string="Remettre en Brouillon" type="object"
+                                attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-file-text-o"
+                                    attrs="{'invisible': [('invoice_id', '=', False)]}">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Facture</span>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="client_id"/>
+                                <field name="tour_package_id"/>
+                                <field name="package_type"/>
+                                <field name="number_of_travelers"/>
+                            </group>
+                            <group>
+                                <field name="booking_date"/>
+                                <field name="date_depart"/>
+                                <field name="date_retour"/>
+                                <field name="responsible_id" widget="many2one_avatar_user"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="discount_method"/>
+                                <field name="discount_percentage" attrs="{'invisible': [('discount_method', '!=', 'percent')]}"/>
+                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}" 
+                                       class="oe_subtotal_footer_separator"/>
+                            </group>
+                            <group>
+                                <field name="any_child"/>
+                                <field name="number_of_children" attrs="{'invisible': [('any_child', '=', False)]}"/>
+                                <field name="cost_per_child" widget="monetary" options="{'currency_field': 'currency_id'}" 
+                                       attrs="{'invisible': [('any_child', '=', False)]}"/>
+                            </group>
+                        </group>
+                        
+                        <field name="company_id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="invoice_id" invisible="1"/>
+
+                        <notebook>
+                            <page string="Transport">
+                                <field name="transport_ids">
+                                    <tree editable="bottom">
+                                        <field name="category"/>
+                                        <field name="description"/>
+                                        <field name="cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Flights">
+                                <field name="flight_ids">
+                                    <tree editable="bottom">
+                                        <field name="person_name"/>
+                                        <field name="pnr_no"/>
+                                        <field name="takeoff_time"/>
+                                        <field name="landing_time"/>
+                                        <field name="source_location"/>
+                                        <field name="destination_location"/>
+                                        <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Paiements">
+                                <field name="payment_ids" readonly="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="payment_method"/>
+                                        <field name="state" widget="badge" decoration-success="state=='posted'"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="amount_paid" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_due" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_reservation_tree" model="ir.ui.view">
+            <field name="name">travel.reservation.tree</field>
+            <field name="model">travel.reservation</field>
+            <field name="arch" type="xml">
+                <tree string="Réservations" decoration-success="state=='confirmed'" decoration-muted="state=='cancelled'">
+                    <field name="name"/>
+                    <field name="client_id"/>
+                    <field name="tour_package_id"/>
+                    <field name="date_depart"/>
+                    <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="state" widget="badge" decoration-success="state=='confirmed'" decoration-info="state=='done'"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_reservation_search" model="ir.ui.view">
+            <field name="name">travel.reservation.search</field>
+            <field name="model">travel.reservation</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Réservations">
+                    <field name="name"/>
+                    <field name="client_id"/>
+                    <field name="tour_package_id"/>
+                    <filter string="Confirmé" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                    <filter string="Brouillon" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Client" name="group_client" context="{'group_by': 'client_id'}"/>
+                        <filter string="Forfait" name="group_package" context="{'group_by': 'tour_package_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_reservation" model="ir.actions.act_window">
+            <field name="name">Réservations</field>
+            <field name="res_model">travel.reservation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre première réservation !
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem id="menu_reservation"
+                  name="Réservations"
+                  parent="menu_agence_voyage_root"
+                  action="action_reservation"
+                  sequence="10"/>
+    </data>
+</odoo>

@@ -11,3 +11,13 @@ access_tour_package_itinerary_user,tour.package.itinerary.user,model_tour_packag
 access_tour_package_itinerary_manager,tour.package.itinerary.manager,model_tour_package_itinerary,base.group_system,1,1,1,1
 access_tour_package_facility_user,tour.package.facility.user,model_tour_package_facility,base.group_user,1,1,1,1
 access_tour_package_facility_manager,tour.package.facility.manager,model_tour_package_facility,base.group_system,1,1,1,1
+access_travel_reservation_user,travel.reservation.user,model_travel_reservation,base.group_user,1,1,1,1
+access_travel_reservation_manager,travel.reservation.manager,model_travel_reservation,base.group_system,1,1,1,1
+access_travel_reservation_line_user,travel.reservation.line.user,model_travel_reservation_line,base.group_user,1,1,1,1
+access_travel_reservation_line_manager,travel.reservation.line.manager,model_travel_reservation_line,base.group_system,1,1,1,1
+access_travel_payment_user,travel.payment.user,model_travel_payment,base.group_user,1,1,1,1
+access_travel_payment_manager,travel.payment.manager,model_travel_payment,base.group_system,1,1,1,1
+access_travel_reservation_transport_user,travel.reservation.transport.user,model_travel_reservation_transport,base.group_user,1,1,1,1
+access_travel_reservation_transport_manager,travel.reservation.transport.manager,model_travel_reservation_transport,base.group_system,1,1,1,1
+access_travel_reservation_flight_user,travel.reservation.flight.user,model_travel_reservation_flight,base.group_user,1,1,1,1
+access_travel_reservation_flight_manager,travel.reservation.flight.manager,model_travel_reservation_flight,base.group_system,1,1,1,1

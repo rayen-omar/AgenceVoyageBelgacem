@@ -13,7 +13,7 @@
                     <field name="tour_type"/>
                     <field name="total_days"/>
                     <field name="total_nights"/>
-                    <field name="price_per_person"/>
+                    <field name="price_per_person" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="season"/>
                     <field name="active"/>
                 </tree>
@@ -52,7 +52,7 @@
                                 <field name="total_nights"/>
                             </group>
                             <group>
-                                <field name="price_per_person"/>
+                                <field name="price_per_person" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="season"/>
                             </group>
                         </group>
@@ -90,6 +90,8 @@
                                 </field>
                             </page>
                         </notebook>
+                        <field name="company_id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
                     </sheet>
                     <chatter/>
                 </form>

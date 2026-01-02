@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Report Action for Reservation -->
+        <record id="action_report_reservation" model="ir.actions.report">
+            <field name="name">Bon de Réservation</field>
+            <field name="model">travel.reservation</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">AgenceVoaygeBelgacem.report_reservation_document</field>
+            <field name="report_file">AgenceVoaygeBelgacem.report_reservation_document</field>
+            <field name="binding_model_id" ref="model_travel_reservation"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Report Template for Reservation -->
+        <template id="report_reservation_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            
+                            <!-- En-tête -->
+                            <div class="row mt16 mb16">
+                                <div class="col-8">
+                                    <h2>
+                                        <span>Bon de Réservation</span>
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <h3>
+                                        <span t-field="o.name"/>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <!-- Informations Client et Réservation -->
+                            <div class="row mb32">
+                                <div class="col-6">
+                                    <strong>Client:</strong>
+                                    <div t-field="o.client_id.name" class="font-weight-bold"/>
+                                    <div t-field="o.client_id.adresse"/>
+                                    <div t-if="o.client_id.telephone">Tel: <span t-field="o.client_id.telephone"/></div>
+                                    <div t-if="o.client_id.email">Email: <span t-field="o.client_id.email"/></div>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Date de Réservation:</strong></td>
+                                            <td><span t-field="o.date_reservation"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Date de Départ:</strong></td>
+                                            <td><span t-field="o.date_depart"/></td>
+                                        </tr>
+                                        <tr t-if="o.date_retour">
+                                            <td><strong>Date de Retour:</strong></td>
+                                            <td><span t-field="o.date_retour"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Statut:</strong></td>
+                                            <td>
+                                                <span t-if="o.state == 'draft'" class="badge badge-secondary">Brouillon</span>
+                                                <span t-if="o.state == 'confirmed'" class="badge badge-success">Confirmée</span>
+                                                <span t-if="o.state == 'done'" class="badge badge-info">Terminée</span>
+                                                <span t-if="o.state == 'cancelled'" class="badge badge-danger">Annulée</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Détails du Forfait -->
+                            <h3>Détails du Forfait</h3>
+                            <table class="table table-sm o_main_table">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Forfait:</strong></td>
+                                        <td><span t-field="o.tour_package_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Référence Forfait:</strong></td>
+                                        <td><span t-field="o.tour_package_id.sequence"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Type de Forfait:</strong></td>
+                                        <td>
+                                            <span t-if="o.tour_package_id.package_type == 'flexi'">Flexi Package</span>
+                                            <span t-if="o.tour_package_id.package_type == 'group'">Group Package</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Type de Voyage:</strong></td>
+                                        <td>
+                                            <span t-if="o.tour_package_id.tour_type == 'domestic'">Domestic</span>
+                                            <span t-if="o.tour_package_id.tour_type == 'international'">International</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Durée:</strong></td>
+                                        <td>
+                                            <span t-field="o.tour_package_id.total_days"/> jours / 
+                                            <span t-field="o.tour_package_id.total_nights"/> nuits
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Liste des Voyageurs -->
+                            <h3 class="mt32">Liste des Voyageurs</h3>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom Complet</th>
+                                        <th>Date de Naissance</th>
+                                        <th>Âge</th>
+                                        <th>Type</th>
+                                        <th>N° Passeport</th>
+                                        <th>Email</th>
+                                        <th>Téléphone</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.traveler_ids" t-as="traveler">
+                                        <td><span t-field="traveler.name"/></td>
+                                        <td><span t-field="traveler.date_naissance"/></td>
+                                        <td><span t-field="traveler.age"/></td>
+                                        <td>
+                                            <span t-if="traveler.traveler_type == 'adult'">Adulte</span>
+                                            <span t-if="traveler.traveler_type == 'child'">Enfant</span>
+                                            <span t-if="traveler.traveler_type == 'infant'">Bébé</span>
+                                        </td>
+                                        <td><span t-field="traveler.passport_number"/></td>
+                                        <td><span t-field="traveler.email"/></td>
+                                        <td><span t-field="traveler.phone"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Récapitulatif Financier -->
+                            <div class="clearfix">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h3>Informations de Paiement</h3>
+                                        <table class="table table-sm">
+                                            <tbody>
+                                                <tr t-foreach="o.payment_ids.filtered(lambda p: p.state == 'posted')" t-as="payment">
+                                                    <td><span t-field="payment.date"/></td>
+                                                    <td><span t-field="payment.payment_method"/></td>
+                                                    <td class="text-right">
+                                                        <span t-field="payment.amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-6">
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Nombre de Voyageurs:</strong></td>
+                                                <td class="text-right">
+                                                    <span t-field="o.number_of_travelers"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Prix par Personne:</strong></td>
+                                                <td class="text-right">
+                                                    <span t-field="o.price_per_person" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Sous-total:</strong></td>
+                                                <td class="text-right">
+                                                    <span t-field="o.total_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="o.discount_percentage > 0">
+                                                <td><strong>Remise (<span t-field="o.discount_percentage"/>%):</strong></td>
+                                                <td class="text-right">
+                                                    - <span t-field="o.discount_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-black">
+                                                <td><strong>Total:</strong></td>
+                                                <td class="text-right">
+                                                    <strong><span t-field="o.total_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Montant Payé:</strong></td>
+                                                <td class="text-right text-success">
+                                                    <span t-field="o.amount_paid" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-black">
+                                                <td><strong>Montant Restant:</strong></td>
+                                                <td class="text-right">
+                                                    <strong class="text-danger"><span t-field="o.amount_due" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notes -->
+                            <div t-if="o.notes" class="mt32">
+                                <h3>Notes</h3>
+                                <p t-field="o.notes"/>
+                            </div>
+
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Report Action for Payment Receipt -->
+        <record id="action_report_payment_receipt" model="ir.actions.report">
+            <field name="name">Reçu de Paiement</field>
+            <field name="model">travel.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">AgenceVoaygeBelgacem.report_payment_receipt_document</field>
+            <field name="report_file">AgenceVoaygeBelgacem.report_payment_receipt_document</field>
+            <field name="binding_model_id" ref="model_travel_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Report Template for Payment Receipt -->
+        <template id="report_payment_receipt_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            
+                            <!-- En-tête -->
+                            <div class="row mt16 mb32">
+                                <div class="col-8">
+                                    <h2>
+                                        <span>Reçu de Paiement</span>
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <h3>
+                                        <span t-field="o.name"/>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <!-- Informations -->
+                            <div class="row mb32">
+                                <div class="col-6">
+                                    <strong>Reçu de:</strong>
+                                    <div t-field="o.partner_id.name" class="font-weight-bold"/>
+                                    <div t-field="o.partner_id.adresse"/>
+                                    <div t-if="o.partner_id.telephone">Tel: <span t-field="o.partner_id.telephone"/></div>
+                                    <div t-if="o.partner_id.email">Email: <span t-field="o.partner_id.email"/></div>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Date:</strong></td>
+                                            <td><span t-field="o.date"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Réservation:</strong></td>
+                                            <td><span t-field="o.reservation_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mode de Paiement:</strong></td>
+                                            <td>
+                                                <span t-if="o.payment_method == 'cash'">Espèces</span>
+                                                <span t-if="o.payment_method == 'check'">Chèque</span>
+                                                <span t-if="o.payment_method == 'bank_transfer'">Virement Bancaire</span>
+                                                <span t-if="o.payment_method == 'credit_card'">Carte de Crédit</span>
+                                                <span t-if="o.payment_method == 'mobile_money'">Mobile Money</span>
+                                            </td>
+                                        </tr>
+                                        <tr t-if="o.reference">
+                                            <td><strong>Référence:</strong></td>
+                                            <td><span t-field="o.reference"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Détails du Paiement -->
+                            <h3>Détails du Paiement</h3>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th class="text-right">Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Paiement pour la réservation <span t-field="o.reservation_id.name"/></td>
+                                        <td class="text-right">
+                                            <strong><span t-field="o.amount" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Récapitulatif de la Réservation -->
+                            <div class="mt32">
+                                <h4>Récapitulatif de la Réservation</h4>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Forfait:</strong></td>
+                                        <td><span t-field="o.reservation_id.tour_package_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Montant Total:</strong></td>
+                                        <td><span t-field="o.reservation_id.total_amount" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Montant Payé (Total):</strong></td>
+                                        <td class="text-success"><span t-field="o.reservation_id.amount_paid" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td><strong>Montant Restant:</strong></td>
+                                        <td class="text-danger">
+                                            <strong><span t-field="o.reservation_id.amount_due" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- Notes -->
+                            <div t-if="o.notes" class="mt32">
+                                <p t-field="o.notes"/>
+                            </div>
+
+                            <!-- Signature -->
+                            <div class="row mt64">
+                                <div class="col-6">
+                                    <p>Signature du Client</p>
+                                    <br/><br/>
+                                    <p>_______________________</p>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <p>Pour l'Agence</p>
+                                    <br/><br/>
+                                    <p>_______________________</p>
+                                </div>
+                            </div>
+
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

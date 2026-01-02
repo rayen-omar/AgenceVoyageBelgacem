@@ -17,7 +17,7 @@
     """,
     'author': 'Agence Voyage Belgacem',
     'website': 'https://www.agencevoyagebelgacem.com',
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'account'],
     'data': [
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
@@ -26,6 +26,9 @@
         'views/client_views.xml',
         'views/hotel_views.xml',
         'views/tour_package_views.xml',
+        'views/reservation_views.xml',
+        'views/payment_views.xml',
+        'reports/reservation_reports.xml',
     ],
     'assets': {
         'web.assets_backend': [

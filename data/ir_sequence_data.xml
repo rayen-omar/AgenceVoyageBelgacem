@@ -9,5 +9,23 @@
             <field name="number_increment">1</field>
             <field name="number_next">1</field>
         </record>
+
+        <record id="seq_travel_reservation" model="ir.sequence">
+            <field name="name">Reservation Sequence</field>
+            <field name="code">travel.reservation</field>
+            <field name="prefix">RES/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+
+        <record id="seq_travel_payment" model="ir.sequence">
+            <field name="name">Payment Sequence</field>
+            <field name="code">travel.payment</field>
+            <field name="prefix">PAY/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
     </data>
 </odoo>
