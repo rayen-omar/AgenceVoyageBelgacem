@@ -22,4 +22,3 @@ class HotelVoyage(models.Model):
         ('5', '5 étoiles'),
     ], string='Nombre d\'étoiles')
     description = fields.Text(string='Description')
-    active = fields.Boolean(string='Actif', default=True)

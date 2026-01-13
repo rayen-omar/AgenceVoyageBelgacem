@@ -10,7 +10,6 @@
                     <field name="name"/>
                     <field name="email"/>
                     <field name="telephone"/>
-                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -27,7 +26,6 @@
                                 <field name="name" required="1"/>
                                 <field name="email"/>
                                 <field name="telephone"/>
-                                <field name="active"/>
                             </group>
                         </group>
                         <group>
@@ -47,8 +45,6 @@
                     <field name="name" string="Nom"/>
                     <field name="email" string="Email"/>
                     <field name="telephone" string="Téléphone"/>
-                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
-                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
                     <separator/>
                     <filter string="Avec email" name="with_email" domain="[('email', '!=', False)]"/>
                     <filter string="Avec téléphone" name="with_phone" domain="[('telephone', '!=', False)]"/>
@@ -61,6 +57,7 @@
             <field name="name">Clients</field>
             <field name="res_model">client.voyage</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Créez votre premier client !

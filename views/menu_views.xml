@@ -5,5 +5,12 @@
         <menuitem id="menu_agence_voyage_root"
                   name="Agence de Voyage"
                   sequence="100"/>
+
+        <!-- Menu Achats -->
+        <menuitem id="menu_purchase"
+                  name="Achats"
+                  parent="menu_agence_voyage_root"
+                  action="action_purchase"
+                  sequence="60"/>
     </data>
 </odoo>

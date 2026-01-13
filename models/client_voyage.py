@@ -12,4 +12,3 @@ class ClientVoyage(models.Model):
     email = fields.Char(string='Email')
     telephone = fields.Char(string='Téléphone')
     adresse = fields.Text(string='Adresse')
-    active = fields.Boolean(string='Actif', default=True)

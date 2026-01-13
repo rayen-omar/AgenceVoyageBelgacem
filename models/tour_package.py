@@ -49,7 +49,6 @@ class TourPackage(models.Model):
         string='Équipements'
     )
 
-    active = fields.Boolean(string='Actif', default=True, tracking=True)
     company_id = fields.Many2one('res.company', string='Société', default=lambda self: self.env.company)
     currency_id = fields.Many2one('res.currency', related='company_id.currency_id', string='Devise', readonly=True)
 

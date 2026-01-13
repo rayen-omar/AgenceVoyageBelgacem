@@ -10,8 +10,6 @@
                     <field name="name"/>
                     <field name="ville"/>
                     <field name="pays"/>
-                    <field name="type_lieu"/>
-                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -26,8 +24,6 @@
                         <group>
                             <group>
                                 <field name="name"/>
-                                <field name="type_lieu"/>
-                                <field name="active"/>
                             </group>
                             <group>
                                 <field name="ville"/>
@@ -56,15 +52,7 @@
                     <field name="name" string="Nom"/>
                     <field name="ville" string="Ville"/>
                     <field name="pays" string="Pays"/>
-                    <field name="type_lieu" string="Type"/>
-                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
-                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
-                    <separator/>
-                    <filter string="Aéroports" name="aeroport" domain="[('type_lieu', '=', 'aeroport')]"/>
-                    <filter string="Hôtels" name="hotel" domain="[('type_lieu', '=', 'hotel')]"/>
-                    <filter string="Monuments" name="monument" domain="[('type_lieu', '=', 'monument')]"/>
                     <group expand="0" string="Grouper par">
-                        <filter string="Type de lieu" name="group_type" context="{'group_by': 'type_lieu'}"/>
                         <filter string="Pays" name="group_pays" context="{'group_by': 'pays'}"/>
                         <filter string="Ville" name="group_ville" context="{'group_by': 'ville'}"/>
                     </group>
@@ -77,6 +65,7 @@
             <field name="name">Destinations</field>
             <field name="res_model">location.voyage</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Créez votre première destination !

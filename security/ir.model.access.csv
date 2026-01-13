@@ -21,3 +21,7 @@ access_travel_reservation_transport_user,travel.reservation.transport.user,model
 access_travel_reservation_transport_manager,travel.reservation.transport.manager,model_travel_reservation_transport,base.group_system,1,1,1,1
 access_travel_reservation_flight_user,travel.reservation.flight.user,model_travel_reservation_flight,base.group_user,1,1,1,1
 access_travel_reservation_flight_manager,travel.reservation.flight.manager,model_travel_reservation_flight,base.group_system,1,1,1,1
+access_travel_purchase_user,travel.purchase.user,model_travel_purchase,base.group_user,1,1,1,1
+access_travel_purchase_manager,travel.purchase.manager,model_travel_purchase,base.group_system,1,1,1,1
+access_travel_purchase_line_user,travel.purchase.line.user,model_travel_purchase_line,base.group_user,1,1,1,1
+access_travel_purchase_line_manager,travel.purchase.line.manager,model_travel_purchase_line,base.group_system,1,1,1,1

@@ -12,7 +12,6 @@
                     <field name="pays"/>
                     <field name="nombre_etoiles"/>
                     <field name="telephone"/>
-                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -30,7 +29,6 @@
                                 <field name="nombre_etoiles"/>
                                 <field name="telephone"/>
                                 <field name="email"/>
-                                <field name="active"/>
                             </group>
                             <group>
                                 <field name="ville"/>
@@ -59,8 +57,6 @@
                     <field name="pays" string="Pays"/>
                     <field name="email" string="Email"/>
                     <field name="telephone" string="Téléphone"/>
-                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
-                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
                     <separator/>
                     <filter string="5 étoiles" name="5stars" domain="[('nombre_etoiles', '=', '5')]"/>
                     <filter string="4 étoiles" name="4stars" domain="[('nombre_etoiles', '=', '4')]"/>
@@ -79,6 +75,7 @@
             <field name="name">Hotels</field>
             <field name="res_model">hotel.voyage</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Créez votre premier hotel !

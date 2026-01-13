@@ -6,18 +6,20 @@
             <field name="name">travel.reservation.form</field>
             <field name="model">travel.reservation</field>
             <field name="arch" type="xml">
-                <form string="Réservation">
+                <form string="Réservation" create="1" edit="1" delete="1">
                     <header>
                         <button name="action_create_invoice" string="Créer Facture" type="object" class="btn-primary"
-                                attrs="{'invisible': ['|', ('state', '!=', 'confirmed'), ('invoice_id', '!=', False)]}"/>
+                                attrs="{'invisible': ['|', ('state', '!=', 'confirmed'), ('invoice_id', '!=', False)]}"
+                                icon="fa-file-text-o"/>
                         <button name="action_confirm" string="Confirmer" type="object" class="btn-primary"
-                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-                        <button name="action_register_payment" string="Enregistrer Paiement" type="object" class="btn-secondary"
-                                attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                icon="fa-check"/>
                         <button name="action_cancel" string="Annuler" type="object"
-                                attrs="{'invisible': [('state', 'in', ['cancelled', 'done'])]}"/>
+                                attrs="{'invisible': [('state', 'in', ['cancelled', 'done'])]}"
+                                icon="fa-times"/>
                         <button name="action_draft" string="Remettre en Brouillon" type="object"
-                                attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+                                attrs="{'invisible': [('state', '!=', 'cancelled')]}"
+                                icon="fa-undo"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
                     </header>
                     <sheet>
@@ -35,29 +37,36 @@
                         </div>
 
                         <group>
-                            <group>
-                                <field name="client_id"/>
-                                <field name="tour_package_id"/>
-                                <field name="package_type"/>
-                                <field name="number_of_travelers"/>
-                            </group>
-                            <group>
-                                <field name="booking_date"/>
-                                <field name="date_depart"/>
-                                <field name="date_retour"/>
+                            <group string="Informations Client">
+                                <field name="client_id" options="{'no_create': False, 'no_create_edit': False}"/>
+                                <field name="client_email" invisible="1"/>
+                                <field name="client_phone" invisible="1"/>
                                 <field name="responsible_id" widget="many2one_avatar_user"/>
+                            </group>
+                            <group string="Informations Forfait">
+                                <field name="tour_package_id" options="{'no_create': False, 'no_create_edit': False}"/>
+                                <field name="package_type" readonly="1"/>
+                                <field name="number_of_travelers"/>
                             </group>
                         </group>
 
                         <group>
-                            <group>
-                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="discount_method"/>
-                                <field name="discount_percentage" attrs="{'invisible': [('discount_method', '!=', 'percent')]}"/>
-                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}" 
-                                       class="oe_subtotal_footer_separator"/>
+                            <group string="Dates">
+                                <field name="date_reservation"/>
+                                <field name="booking_date"/>
+                                <field name="date_depart"/>
+                                <field name="date_retour"/>
                             </group>
-                            <group>
+                            <group string="Montants">
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                                <field name="discount_percentage"/>
+                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}" 
+                                       readonly="1" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group string="Enfants">
                                 <field name="any_child"/>
                                 <field name="number_of_children" attrs="{'invisible': [('any_child', '=', False)]}"/>
                                 <field name="cost_per_child" widget="monetary" options="{'currency_field': 'currency_id'}" 
@@ -70,18 +79,20 @@
                         <field name="invoice_id" invisible="1"/>
 
                         <notebook>
-                            <page string="Transport">
+                            <page string="Transport" icon="fa-car">
                                 <field name="transport_ids">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" create="1" delete="1">
+                                        <field name="sequence" widget="handle"/>
                                         <field name="category"/>
                                         <field name="description"/>
                                         <field name="cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Flights">
+                            <page string="Vols" icon="fa-plane">
                                 <field name="flight_ids">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" create="1" delete="1">
+                                        <field name="sequence" widget="handle"/>
                                         <field name="person_name"/>
                                         <field name="pnr_no"/>
                                         <field name="takeoff_time"/>
@@ -92,25 +103,14 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Paiements">
-                                <field name="payment_ids" readonly="1">
-                                    <tree>
-                                        <field name="name"/>
-                                        <field name="date"/>
-                                        <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                        <field name="payment_method"/>
-                                        <field name="state" widget="badge" decoration-success="state=='posted'"/>
-                                    </tree>
-                                </field>
-                                <group>
-                                    <field name="amount_paid" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                    <field name="amount_due" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                </group>
+                            <page string="Termes et Conditions" icon="fa-file-text">
+                                <field name="terms_conditions" widget="html"/>
                             </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
                         <field name="message_ids"/>
                     </div>
                 </form>
@@ -122,13 +122,21 @@
             <field name="name">travel.reservation.tree</field>
             <field name="model">travel.reservation</field>
             <field name="arch" type="xml">
-                <tree string="Réservations" decoration-success="state=='confirmed'" decoration-muted="state=='cancelled'">
+                <tree string="Réservations" 
+                      decoration-success="state=='confirmed'" 
+                      decoration-muted="state=='cancelled'"
+                      decoration-info="state=='done'"
+                      create="1" edit="1" delete="1">
                     <field name="name"/>
                     <field name="client_id"/>
                     <field name="tour_package_id"/>
                     <field name="date_depart"/>
-                    <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                    <field name="state" widget="badge" decoration-success="state=='confirmed'" decoration-info="state=='done'"/>
+                    <field name="number_of_travelers"/>
+                    <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total"/>
+                    <field name="state" widget="badge" 
+                           decoration-success="state=='confirmed'"
+                           decoration-info="state=='done'"
+                           decoration-muted="state=='cancelled'"/>
                     <field name="company_id" invisible="1"/>
                     <field name="currency_id" invisible="1"/>
                 </tree>
@@ -144,11 +152,17 @@
                     <field name="name"/>
                     <field name="client_id"/>
                     <field name="tour_package_id"/>
-                    <filter string="Confirmé" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                    <field name="date_depart"/>
                     <filter string="Brouillon" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Confirmé" name="confirmed" domain="[('state', '=', 'confirmed')]"/>
+                    <filter string="Terminé" name="done" domain="[('state', '=', 'done')]"/>
+                    <filter string="Aujourd'hui" name="today" domain="[('date_depart', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Ce Mois" name="this_month" domain="[('date_depart', '>=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-%d'))]"/>
                     <group expand="0" string="Grouper par">
                         <filter string="Client" name="group_client" context="{'group_by': 'client_id'}"/>
                         <filter string="Forfait" name="group_package" context="{'group_by': 'tour_package_id'}"/>
+                        <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Date Départ" name="group_date" context="{'group_by': 'date_depart'}"/>
                     </group>
                 </search>
             </field>
@@ -159,9 +173,14 @@
             <field name="name">Réservations</field>
             <field name="res_model">travel.reservation</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Créez votre première réservation !
+                </p>
+                <p>
+                    Les réservations permettent de gérer les commandes de vos clients
+                    et de suivre tous les détails de leurs voyages.
                 </p>
             </field>
         </record>
@@ -171,6 +190,6 @@
                   name="Réservations"
                   parent="menu_agence_voyage_root"
                   action="action_reservation"
-                  sequence="10"/>
+                  sequence="50"/>
     </data>
 </odoo>

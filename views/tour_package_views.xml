@@ -15,7 +15,6 @@
                     <field name="total_nights"/>
                     <field name="price_per_person" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="season"/>
-                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -27,9 +26,7 @@
             <field name="arch" type="xml">
                 <form string="Forfait Touristique">
                     <header>
-                        <button name="action_book" string="Book" type="object" class="btn-primary" 
-                                attrs="{'invisible': [('active', '=', False)]}"/>
-                        <field name="active" widget="boolean_toggle"/>
+                        <button name="action_book" string="Book" type="object" class="btn-primary"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -57,36 +54,54 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Days">
+                            <page string="Jours" icon="fa-calendar">
                                 <field name="itinerary_ids" nolabel="1">
-                                    <tree>
-                                        <field name="name" string="Days"/>
-                                        <field name="hotel_id" string="Hotels"/>
-                                        <field name="places_covered" string="Places Covered"/>
+                                    <tree editable="bottom" create="1" delete="1" default_order="sequence,name">
+                                        <field name="name" string="Jour" required="1"/>
+                                        <field name="location_id" string="Destination"/>
+                                        <field name="hotel_id" string="Hôtel"/>
+                                        <field name="night" string="Nuit"/>
+                                        <field name="places_covered" string="Lieux Visités"/>
                                     </tree>
-                                    <form string="Create Days">
+                                    <form string="Jour du Voyage" create="1" edit="1" delete="1">
                                         <sheet>
                                             <group>
-                                                <field name="name" string="Days" required="1" placeholder="Titre du jour..."/>
+                                                <group string="Informations du Jour">
+                                                    <field name="name" string="Titre du Jour" required="1" placeholder="Ex: Jour 1 - Arrivée à Paris"/>
+                                                    <field name="location_id" string="Destination"/>
+                                                    <field name="hotel_id" string="Hôtel"/>
+                                                    <field name="night" string="Nombre de Nuits"/>
+                                                </group>
                                             </group>
                                             <group>
-                                                <field name="location_id" string="Location"/>
-                                                <field name="hotel_id" string="Hotels"/>
-                                                <field name="night" string="Night"/>
-                                            </group>
-                                            <group>
-                                                <field name="places_covered" string="Places Covered" placeholder="Lieux visités..."/>
+                                                <group string="Détails">
+                                                    <field name="places_covered" string="Lieux Visités" placeholder="Liste des lieux à visiter ce jour..."/>
+                                                </group>
                                             </group>
                                         </sheet>
                                     </form>
                                 </field>
                             </page>
-                            <page string="Équipements">
+                            <page string="Services &amp; Équipements" icon="fa-star">
                                 <field name="facility_ids" nolabel="1">
-                                    <tree>
-                                        <field name="name" string="Titre"/>
+                                    <tree editable="bottom" create="1" delete="1" default_order="sequence,name">
+                                        <field name="name" string="Service/Équipement" required="1"/>
                                         <field name="description" string="Description"/>
                                     </tree>
+                                    <form string="Service/Équipement" create="1" edit="1" delete="1">
+                                        <sheet>
+                                            <group>
+                                                <group string="Informations">
+                                                    <field name="name" string="Service/Équipement" required="1" placeholder="Ex: Petit-déjeuner inclus, WiFi gratuit, Piscine..."/>
+                                                </group>
+                                            </group>
+                                            <group>
+                                                <group string="Description">
+                                                    <field name="description" string="Description détaillée" placeholder="Description détaillée du service ou équipement..."/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
                                 </field>
                             </page>
                         </notebook>
@@ -107,8 +122,6 @@
                     <field name="name" string="Nom"/>
                     <field name="sequence" string="Référence"/>
                     <field name="location_ids" string="Destinations"/>
-                    <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
-                    <filter string="Inactifs" name="inactive" domain="[('active', '=', False)]"/>
                     <separator/>
                     <filter string="Flexi Package" name="flexi" domain="[('package_type', '=', 'flexi')]"/>
                     <filter string="Group Package" name="group" domain="[('package_type', '=', 'group')]"/>
@@ -128,6 +141,7 @@
             <field name="name">Forfaits Touristiques</field>
             <field name="res_model">tour.package</field>
             <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Créez votre premier forfait touristique !

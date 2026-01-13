@@ -15,13 +15,3 @@ class LocationVoyage(models.Model):
     adresse = fields.Text(string='Adresse complète')
     latitude = fields.Float(string='Latitude', digits=(10, 7))
     longitude = fields.Float(string='Longitude', digits=(10, 7))
-    type_lieu = fields.Selection([
-        ('aeroport', 'Aéroport'),
-        ('gare', 'Gare'),
-        ('hotel', 'Hôtel'),
-        ('monument', 'Monument'),
-        ('plage', 'Plage'),
-        ('restaurant', 'Restaurant'),
-        ('autre', 'Autre'),
-    ], string='Type de lieu', default='autre')
-    active = fields.Boolean(string='Actif', default=True)

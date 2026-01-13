@@ -21,13 +21,14 @@
     'data': [
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
-        'views/menu_views.xml',
         'views/location_views.xml',
         'views/client_views.xml',
         'views/hotel_views.xml',
         'views/tour_package_views.xml',
         'views/reservation_views.xml',
         'views/payment_views.xml',
+        'views/purchase_views.xml',
+        'views/menu_views.xml',
         'reports/reservation_reports.xml',
     ],
     'assets': {
@@ -39,4 +40,5 @@
     'application': True,
     'auto_install': False,
     'license': 'LGPL-3',
+    'post_init_hook': 'post_init_hook',
 }

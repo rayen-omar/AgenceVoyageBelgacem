@@ -1,87 +1,386 @@
-/* Styles personnalisés pour tous les champs de texte - Version complète */
+/* ============================================
+   AGENCE VOYAGE BELGACEM - STYLES PROFESSIONNELS
+   Design moderne, simple et facile à utiliser
+   ============================================ */
+
+/* === Variables de Couleurs === */
+:root {
+    --primary-color: #875a7b;
+    --primary-hover: #6d4a63;
+    --secondary-color: #7c7bad;
+    --success-color: #28a745;
+    --info-color: #17a2b8;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-color: #212529;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* === Champs de Formulaire === */
 .o_field_widget input[type="text"],
-.o_field_widget input[type="text"]:not([readonly]),
 .o_field_widget input[type="email"],
 .o_field_widget input[type="number"],
 .o_field_widget input[type="tel"],
-.o_field_widget input[type="url"],
-.o_field_widget input[type="search"],
-.o_field_widget input[type="password"],
 .o_field_widget input[type="date"],
 .o_field_widget input[type="datetime-local"],
 .o_field_widget textarea,
 .o_field_widget .o_input,
-.o_field_widget input,
-.o_field_widget select,
-.o_field_widget .o_input_dropdown input,
-.o_field_widget .o_field_char input,
-.o_field_widget .o_field_text textarea,
-.o_field_widget .o_field_integer input,
-.o_field_widget .o_field_float input,
-.o_field_widget .o_field_monetary input,
-.o_field_widget .o_field_many2one input,
-.o_field_widget .o_field_selection select,
-.o_field_widget .o_field_date input,
-.o_field_widget .o_field_datetime input {
-    background-color: #f5f5f5 !important;
-    border: 1px solid #e8e8e8 !important;
-    border-radius: 4px !important;
+.o_field_widget select {
+    background-color: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    transition: all 0.3s ease !important;
+    font-size: 14px !important;
 }
 
-.o_field_widget input[type="text"]:focus,
-.o_field_widget input[type="email"]:focus,
-.o_field_widget input[type="number"]:focus,
-.o_field_widget input[type="tel"]:focus,
-.o_field_widget input[type="url"]:focus,
-.o_field_widget input[type="search"]:focus,
-.o_field_widget input[type="password"]:focus,
-.o_field_widget input[type="date"]:focus,
-.o_field_widget input[type="datetime-local"]:focus,
-.o_field_widget textarea:focus,
-.o_field_widget .o_input:focus,
 .o_field_widget input:focus,
-.o_field_widget select:focus,
-.o_field_widget .o_input_dropdown input:focus,
-.o_field_widget .o_field_char input:focus,
-.o_field_widget .o_field_text textarea:focus,
-.o_field_widget .o_field_integer input:focus,
-.o_field_widget .o_field_float input:focus,
-.o_field_widget .o_field_monetary input:focus,
-.o_field_widget .o_field_many2one input:focus,
-.o_field_widget .o_field_selection select:focus,
-.o_field_widget .o_field_date input:focus,
-.o_field_widget .o_field_datetime input:focus {
-    background-color: #f5f5f5 !important;
-    border: 1px solid #e8e8e8 !important;
-    box-shadow: 0 0 0 0.2rem rgba(135, 90, 123, 0.15) !important;
+.o_field_widget textarea:focus,
+.o_field_widget select:focus {
+    background-color: #ffffff !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(135, 90, 123, 0.1) !important;
     outline: none !important;
 }
 
-/* Pour les champs Many2one et autres champs avec dropdown */
-.o_field_widget .o_input_dropdown input,
-.o_field_widget .o_field_many2one .o_input,
-.o_field_widget .o_input_dropdown > input {
-    background-color: #f5f5f5 !important;
-    border: 1px solid #e8e8e8 !important;
+/* === Boutons === */
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
 }
 
-/* Pour tous les champs dans les formulaires Odoo */
-.o_form_view .o_field_widget input,
-.o_form_view .o_field_widget textarea,
-.o_form_view .o_field_widget select,
-.o_form_view input.o_input,
-.o_form_view textarea.o_input,
-.o_form_view .o_input {
-    background-color: #f5f5f5 !important;
-    border: 1px solid #e8e8e8 !important;
-    border-radius: 4px !important;
+.btn-primary:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover) !important;
 }
 
-/* Ciblage global pour tous les inputs dans les formulaires */
-.o_form_view input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
-.o_form_view textarea,
-.o_form_view select {
-    background-color: #f5f5f5 !important;
-    border: 1px solid #e8e8e8 !important;
+.btn-secondary {
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-secondary:hover {
+    background-color: #6b6a9d !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover) !important;
+}
+
+/* === Statut Bar === */
+.o_statusbar_status {
+    border-radius: 6px !important;
+    padding: 4px !important;
+}
+
+.o_statusbar_status .btn {
     border-radius: 4px !important;
+    margin: 2px !important;
+    transition: all 0.3s ease !important;
+}
+
+/* === Cards et Sections === */
+.o_form_sheet {
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    box-shadow: var(--shadow) !important;
+    padding: 20px !important;
+    margin: 10px !important;
+}
+
+.o_form_sheet_bg {
+    background: var(--light-bg) !important;
+}
+
+/* === Groupes de Champs === */
+.o_group {
+    background: #ffffff !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+    margin-bottom: 16px !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.o_group .o_group_label {
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    margin-bottom: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* === Tableaux === */
+.o_list_table {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.o_list_table thead {
+    background: var(--primary-color) !important;
+    color: #ffffff !important;
+}
+
+.o_list_table thead th {
+    font-weight: 600 !important;
+    padding: 12px !important;
+    border: none !important;
+}
+
+.o_list_table tbody tr {
+    transition: background-color 0.2s ease !important;
+}
+
+.o_list_table tbody tr:hover {
+    background-color: #f8f9fa !important;
+}
+
+.o_list_table tbody td {
+    padding: 12px !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* === Badges === */
+.badge {
+    border-radius: 12px !important;
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+.badge-success {
+    background-color: var(--success-color) !important;
+    color: #ffffff !important;
+}
+
+.badge-info {
+    background-color: var(--info-color) !important;
+    color: #ffffff !important;
+}
+
+.badge-warning {
+    background-color: var(--warning-color) !important;
+    color: #212529 !important;
+}
+
+.badge-danger {
+    background-color: var(--danger-color) !important;
+    color: #ffffff !important;
+}
+
+/* === Stat Buttons === */
+.oe_stat_button {
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid var(--border-color) !important;
+    background: #ffffff !important;
+}
+
+.oe_stat_button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-hover) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.oe_stat_button .o_stat_info {
+    color: var(--text-color) !important;
+}
+
+.oe_stat_button .o_stat_text {
+    font-weight: 500 !important;
+}
+
+/* === Notebooks (Onglets) === */
+.o_notebook {
+    margin-top: 20px !important;
+}
+
+.o_notebook .nav-tabs {
+    border-bottom: 2px solid var(--border-color) !important;
+}
+
+.o_notebook .nav-tabs .nav-link {
+    border-radius: 6px 6px 0 0 !important;
+    border: none !important;
+    color: var(--text-color) !important;
+    padding: 10px 20px !important;
+    transition: all 0.3s ease !important;
+}
+
+.o_notebook .nav-tabs .nav-link:hover {
+    background-color: var(--light-bg) !important;
+    color: var(--primary-color) !important;
+}
+
+.o_notebook .nav-tabs .nav-link.active {
+    background-color: var(--primary-color) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.o_notebook .tab-content {
+    padding: 20px !important;
+    background: #ffffff !important;
+    border-radius: 0 0 8px 8px !important;
+}
+
+/* === Champs Monétaires === */
+.o_field_monetary {
+    font-weight: 600 !important;
+    color: var(--primary-color) !important;
+}
+
+/* === Search View === */
+.o_searchview {
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.o_searchview_input {
+    border-radius: 8px !important;
+}
+
+/* === Filters === */
+.o_filters {
+    background: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+}
+
+.o_filters .o_filters_labels {
+    background: var(--light-bg) !important;
+    border-radius: 4px !important;
+    padding: 4px 8px !important;
+    margin: 2px !important;
+}
+
+/* === Messages et Alerts === */
+.alert {
+    border-radius: 6px !important;
+    border: none !important;
+    padding: 12px 16px !important;
+}
+
+.alert-success {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+}
+
+.alert-info {
+    background-color: #d1ecf1 !important;
+    color: #0c5460 !important;
+}
+
+.alert-warning {
+    background-color: #fff3cd !important;
+    color: #856404 !important;
+}
+
+.alert-danger {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+}
+
+/* === Amélioration des Titres === */
+.oe_title h1 {
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+    font-size: 24px !important;
+    margin-bottom: 20px !important;
+}
+
+/* === Amélioration des Labels === */
+.o_field_label {
+    font-weight: 500 !important;
+    color: var(--text-color) !important;
+    font-size: 13px !important;
+}
+
+/* === Scrollbar Personnalisée === */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .o_form_sheet {
+        padding: 12px !important;
+        margin: 5px !important;
+    }
+    
+    .o_group {
+        padding: 12px !important;
+    }
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.o_form_view {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* === Amélioration des One2many === */
+.o_field_one2many .o_list_table {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+}
+
+.o_field_one2many .o_list_table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* === Amélioration des Many2one === */
+.o_field_many2one .o_input_dropdown {
+    border-radius: 6px !important;
+}
+
+/* === Amélioration des Checkboxes === */
+input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer !important;
+    accent-color: var(--primary-color) !important;
+}
+
+/* === Amélioration des Radio Buttons === */
+input[type="radio"] {
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer !important;
+    accent-color: var(--primary-color) !important;
 }
